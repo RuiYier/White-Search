@@ -1,0 +1,25 @@
+@font-face {
+  font-family: "iconfont"; /* Project id  */
+  src: url('iconfont.ttf?t=1775149254705') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-baidu_:before {
+  content: "\e627";
+}
+
+.icon-bing:before {
+  content: "\e653";
+}
+
+.icon-logo-google:before {
+  content: "\e795";
+}
+

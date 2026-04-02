@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="no-referrer" />
+    <title>白搜</title>
+    <link rel="stylesheet" href="./resources/iconfont.css" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <section class="hero" aria-label="搜索首页">
+        <div class="brand">
+          <div class="brand-copy">
+            <h1>White Search</h1>
+          </div>
+        </div>
+
+        <form id="searchForm" class="search-card" autocomplete="off" spellcheck="false">
+          <div class="search-row">
+            <button class="icon-button" type="button" aria-label="清空输入" id="clearButton">✕</button>
+            <label class="visually-hidden" for="searchInput">搜索</label>
+            <input
+              id="searchInput"
+              name="q"
+              type="search"
+              inputmode="search"
+              placeholder="输入点什么吧..."
+              aria-autocomplete="list"
+              aria-controls="suggestions"
+              aria-expanded="false"
+              aria-describedby="searchHint"
+            />
+            <div class="search-actions" aria-label="搜索引擎按钮">
+              <button class="search-button search-button-alt search-button-baidu" type="submit" aria-label="百度搜索">
+                <span class="iconfont icon-baidu_" aria-hidden="true"></span>
+                <span class="visually-hidden">百度搜索</span>
+              </button>
+              <button class="search-button search-button-alt search-button-bing" type="button" id="bingButton" aria-label="Bing 搜索">
+                <span class="iconfont icon-bing" aria-hidden="true"></span>
+                <span class="visually-hidden">Bing 搜索</span>
+              </button>
+              <button class="search-button search-button-alt search-button-google" type="button" id="googleButton" aria-label="Google 搜索">
+                <span class="iconfont icon-logo-google" aria-hidden="true"></span>
+                <span class="visually-hidden">Google 搜索</span>
+              </button>
+            </div>
+          </div>
+
+          <div id="suggestions" class="suggestions" role="listbox" aria-label="搜索建议"></div>
+        </form>
+
+        <div class="quick-links" aria-label="常用入口">
+          <a href="https://chatgpt.com" target="_blank" rel="noreferrer">ChatGPT</a>
+          <a href="https://gemini.google.com" target="_blank" rel="noreferrer">Gemini</a>
+          <a href="https://chat.deepseek.com" target="_blank" rel="noreferrer">DeepSeek</a>
+          <a href="https://www.doubao.com/chat" target="_blank" rel="noreferrer">豆包</a>
+        </div>
+      </section>
+    </main>
+
+    <script src="./script.js"></script>
+  </body>
+</html>

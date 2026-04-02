@@ -1,0 +1,468 @@
+/* 主题变量：整页颜色和玻璃参数 */
+:root {
+  color-scheme: light;
+  --bg-1: #eef4ff;
+  --bg-2: #f7f2eb;
+  --glass-border: rgba(255, 255, 255, 0.56);
+  --glass-shadow: 0 30px 80px rgba(14, 25, 49, 0.16);
+  --text: #152238;
+  --muted: #64758b;
+  --accent: #2d7ff9;
+}
+
+/* 全局基础：统一盒模型 */
+* {
+  box-sizing: border-box;
+}
+
+/* 页面根元素：铺满视口高度 */
+html,
+body {
+  height: 100%;
+}
+
+/* 页面背景：整体底色和氛围光 */
+body {
+  margin: 0;
+  font-family: "Aptos", "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  color: var(--text);
+  background: linear-gradient(135deg, var(--bg-left, #eef4ff) 0%, #ffffff 48%, var(--bg-right, #f8f9fb) 100%);
+  overflow: hidden;
+}
+
+/* 页面主容器：居中布局 */
+.page-shell {
+  position: relative;
+  min-height: 100%;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+/* 主内容区：标题和搜索区 */
+.hero {
+  width: min(100%, 760px);
+  display: grid;
+  gap: 24px;
+  z-index: 1;
+  margin-top: -10px;
+  animation: rise 700ms ease-out both;
+}
+
+/* 品牌区：标题与图标 */
+.brand {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  text-align: left;
+}
+
+/* 品牌图标：左侧圆角图标块 */
+.brand-mark {
+  width: 62px;
+  height: 62px;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  font-size: 1.8rem;
+  color: rgba(255, 255, 255, 0.98);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.5), rgba(45, 127, 249, 0.24));
+  border: 1px solid rgba(255, 255, 255, 0.68);
+  box-shadow:
+    0 18px 38px rgba(35, 98, 190, 0.18),
+    0 2px 6px rgba(255, 255, 255, 0.28) inset,
+    inset 0 1px 0 rgba(255, 255, 255, 0.92),
+    inset 0 -10px 18px rgba(45, 127, 249, 0.08);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+}
+
+/* 品牌标题：主标题样式 */
+.brand-copy h1 {
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: #333333;
+}
+
+/* 品牌副标题：说明文字 */
+.brand-copy p {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+/* 搜索卡片：输入区和联想框容器 */
+.search-card {
+  position: relative;
+  padding: 18px;
+  border-radius: 34px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.52), rgba(255, 255, 255, 0.18)),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.24), rgba(45, 127, 249, 0.06));
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  box-shadow:
+    0 28px 70px rgba(14, 25, 49, 0.14),
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    inset 0 -18px 32px rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(34px) saturate(210%);
+  -webkit-backdrop-filter: blur(34px) saturate(210%);
+  overflow: visible;
+  isolation: isolate;
+}
+
+/* 搜索卡片高光：玻璃反光层 */
+.search-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.52), transparent 34%, rgba(255, 255, 255, 0.08) 72%),
+    radial-gradient(circle at 18% 14%, rgba(255, 255, 255, 0.38), transparent 26%);
+  pointer-events: none;
+  border-radius: inherit;
+  z-index: 0;
+}
+
+/* 搜索行：输入框和按钮排列 */
+.search-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+/* 搜索按钮组：百度、Bing、Google */
+.search-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+/* 通用按钮：清空与搜索按钮基础 */
+.icon-button,
+.search-button {
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+}
+
+/* 清空按钮：左侧叉号 */
+.icon-button {
+  width: 44px;
+  height: 44px;
+  border-radius: 40%;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0.22)),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(45, 127, 249, 0.08));
+  color: rgba(43, 58, 85, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow:
+    0 12px 28px rgba(17, 27, 44, 0.1),
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    inset 0 -8px 16px rgba(255, 255, 255, 0.24);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  transition: transform 160ms ease, background 160ms ease, color 160ms ease, box-shadow 160ms ease;
+}
+
+/* 清空按钮悬停态 */
+.icon-button:hover {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.56), rgba(255, 255, 255, 0.24));
+  color: var(--text);
+  transform: translateY(-1px) scale(1.01);
+  box-shadow: 0 14px 30px rgba(17, 27, 44, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.92);
+}
+
+/* 搜索输入框：文本输入区域 */
+#searchInput {
+  flex: 1;
+  min-width: 0;
+  height: 40px;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--text);
+  font-size: 1.05rem;
+  padding: 0 4px;
+}
+
+/* 搜索输入框占位符 */
+#searchInput::placeholder {
+  color: rgba(97, 112, 138, 0.9);
+}
+
+/* 浏览器默认清除按钮：隐藏 */
+#searchInput::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+/* 搜索按钮通用样式：方形图标按钮 */
+.search-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 40%;
+  color: rgba(255, 255, 255, 0.98);
+  border: 1px solid rgba(255, 255, 255, 0.68);
+  box-shadow:
+    0 16px 34px rgba(17, 27, 44, 0.16),
+    0 1px 0 rgba(255, 255, 255, 0.92) inset,
+    inset 0 -10px 18px rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease, border-color 160ms ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 搜索按钮高光：按钮内反光层 */
+.search-button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.56), transparent 34%),
+    radial-gradient(circle at 22% 20%, rgba(255, 255, 255, 0.3), transparent 32%);
+  pointer-events: none;
+}
+
+/* 搜索按钮悬停态 */
+.search-button:hover {
+  transform: translateY(-1px) scale(1.01);
+  box-shadow: 0 18px 34px rgba(17, 27, 44, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.74);
+}
+
+/* 搜索按钮尺寸：百度、Bing、Google 共用 */
+.search-button-baidu,
+.search-button-alt {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+}
+
+/* 百度按钮：主提交按钮 */
+.search-button-baidu {
+  color: rgba(255, 255, 255, 0.98);
+}
+
+/* 搜索图标：三家 logo 字体图标 */
+.search-button-baidu .iconfont,
+.search-button-alt .iconfont {
+  font-size: 25px;
+  line-height: 1;
+}
+
+/* 其他搜索引擎按钮：Bing、Google */
+.search-button-alt {
+  color: rgba(19, 30, 50, 0.92);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.58), rgba(255, 255, 255, 0.2)),
+    linear-gradient(135deg, rgba(45, 127, 249, 0.1), rgba(255, 255, 255, 0.08));
+  border-color: rgba(255, 255, 255, 0.72);
+}
+
+/* 其他搜索按钮悬停态 */
+.search-button-alt:hover {
+  color: var(--text);
+}
+
+/* 提示文本：输入说明 */
+.hint {
+  margin: 10px 6px 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+/* 联想词下拉框：建议列表容器 */
+.suggestions {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  top: calc(100% + 10px);
+  border-radius: 24px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0.3)),
+    linear-gradient(135deg, rgba(45, 127, 249, 0.08), rgba(255, 255, 255, 0.08));
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  box-shadow:
+    0 20px 46px rgba(18, 34, 66, 0.12),
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    inset 0 -14px 24px rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(32px) saturate(200%);
+  -webkit-backdrop-filter: blur(32px) saturate(200%);
+  overflow: hidden;
+  display: none;
+  max-height: 340px;
+  overflow-y: auto;
+  z-index: 3;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.suggestions::-webkit-scrollbar {
+  display: none;
+}
+
+/* 联想词下拉框：显示状态 */
+.suggestions.visible {
+  display: block;
+}
+
+/* 联想词条：每条建议按钮 */
+.suggestion-item {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: 14px 16px;
+  text-align: left;
+  cursor: pointer;
+  color: var(--text);
+  font: inherit;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 联想词条图标：前缀符号 */
+.suggestion-item::before {
+  content: "⌕";
+  color: var(--accent);
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* 联想词条悬停/选中态 */
+.suggestion-item:hover,
+.suggestion-item[aria-selected="true"] {
+  background: rgba(45, 127, 249, 0.1);
+}
+
+/* 常用入口：底部快捷链接区域 */
+.quick-links {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  transition: opacity 160ms ease, transform 160ms ease, visibility 160ms ease;
+}
+
+/* 常用入口链接：胶囊按钮 */
+.quick-links a {
+  color: rgba(52, 67, 92, 0.88);
+  text-decoration: none;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0.22)),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(45, 127, 249, 0.06));
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow:
+    0 12px 26px rgba(17, 27, 44, 0.08),
+    0 1px 0 rgba(255, 255, 255, 0.92) inset,
+    inset 0 -8px 14px rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(22px) saturate(190%);
+  -webkit-backdrop-filter: blur(22px) saturate(190%);
+  transition: transform 160ms ease, background 160ms ease, color 160ms ease, box-shadow 160ms ease;
+}
+
+/* 常用入口链接悬停态 */
+.quick-links a:hover {
+  color: var(--text);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.54), rgba(255, 255, 255, 0.24));
+  transform: translateY(-1px);
+  box-shadow: 0 16px 28px rgba(17, 27, 44, 0.11), inset 0 1px 0 rgba(255, 255, 255, 0.84);
+}
+
+/* 联想词打开时：隐藏常用入口 */
+body.suggestions-open .quick-links {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  pointer-events: none;
+}
+
+/* 仅供辅助技术读取：视觉隐藏文本 */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* 动画：主内容轻微上浮 */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 移动端适配：窄屏布局 */
+@media (max-width: 640px) {
+  /* 移动端页面：允许滚动 */
+  body {
+    overflow: auto;
+  }
+
+  /* 移动端容器：调整内边距 */
+  .page-shell {
+    padding: 18px;
+  }
+
+  /* 移动端品牌区：上下排列 */
+  .brand {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  /* 移动端搜索行：允许换行 */
+  .search-row {
+    flex-wrap: wrap;
+  }
+
+  /* 移动端按钮组：占满一行 */
+  .search-actions {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  /* 移动端清空按钮：保持顺序 */
+  .icon-button {
+    order: 2;
+  }
+
+  /* 移动端输入框：独占一行 */
+  #searchInput {
+    order: 1;
+    width: 100%;
+    flex-basis: 100%;
+    padding: 0 4px;
+  }
+
+  /* 移动端搜索按钮：保持顺序 */
+  .search-button {
+    order: 3;
+  }
+
+  /* 移动端联想框：左右留白 */
+  .suggestions {
+    left: 14px;
+    right: 14px;
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1427495",
+      "name": "baidu",
+      "font_class": "baidu_",
+      "unicode": "e627",
+      "unicode_decimal": 58919
+    },
+    {
+      "icon_id": "1444034",
+      "name": "bing",
+      "font_class": "bing",
+      "unicode": "e653",
+      "unicode_decimal": 58963
+    },
+    {
+      "icon_id": "7656251",
+      "name": "logo-google",
+      "font_class": "logo-google",
+      "unicode": "e795",
+      "unicode_decimal": 59285
+    }
+  ]
+}
