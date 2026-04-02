@@ -35,8 +35,9 @@ body {
   position: relative;
   min-height: 100%;
   display: grid;
-  place-items: center;
-  padding: 24px;
+  justify-items: center;
+  align-items: start;
+  padding: clamp(140px, 25vh, 300px) 24px 24px;
 }
 
 /* 主内容区：标题和搜索区 */
@@ -45,7 +46,6 @@ body {
   display: grid;
   gap: 24px;
   z-index: 1;
-  margin-top: -10px;
   animation: rise 700ms ease-out both;
 }
 
@@ -82,7 +82,7 @@ body {
 /* 品牌标题：主标题样式 */
 .brand-copy h1 {
   margin: 0;
-  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-size: clamp(3rem, 5vw, 3.5rem);
   letter-spacing: -0.04em;
   line-height: 1;
   color: #333333;
@@ -202,7 +202,7 @@ body {
   appearance: none;
 }
 
-/* 搜索按钮通用样式：方形图标按钮 */
+/* 搜索按钮通用样式：图标按钮 */
 .search-button {
   display: inline-flex;
   align-items: center;
@@ -421,7 +421,7 @@ body.suggestions-open .quick-links {
 
   /* 移动端容器：调整内边距 */
   .page-shell {
-    padding: 18px;
+    padding: clamp(72px, 18vh, 140px) 18px 18px;
   }
 
   /* 移动端品牌区：上下排列 */
@@ -438,7 +438,7 @@ body.suggestions-open .quick-links {
   /* 移动端按钮组：占满一行 */
   .search-actions {
     width: 100%;
-    justify-content: flex-start;
+    justify-content: flex-end;
     flex-wrap: wrap;
   }
 
@@ -449,7 +449,7 @@ body.suggestions-open .quick-links {
 
   /* 移动端输入框：独占一行 */
   #searchInput {
-    order: 1;
+    order: 0;
     width: 100%;
     flex-basis: 100%;
     padding: 0 4px;
@@ -457,7 +457,7 @@ body.suggestions-open .quick-links {
 
   /* 移动端搜索按钮：保持顺序 */
   .search-button {
-    order: 3;
+    order: 1;
   }
 
   /* 移动端联想框：左右留白 */
