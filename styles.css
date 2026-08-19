@@ -1,36 +1,222 @@
-/* 主题变量：整页颜色和玻璃参数 */
+/* ============================================================
+   主题令牌
+   液态玻璃 = 极低填充 + 多层斜角高光 + 内折射环 + 角部反光
+   ============================================================ */
 :root {
   color-scheme: light;
-  --bg-1: #eef4ff;
-  --bg-2: #f7f2eb;
-  --glass-border: rgba(255, 255, 255, 0.56);
-  --glass-shadow: 0 30px 80px rgba(14, 25, 49, 0.16);
-  --text: #152238;
-  --muted: #64758b;
+
+  /* 文字与强调色 */
+  --text: #2b2b2b;
+  --muted: #6b6b6b;
   --accent: #2d7ff9;
+  --accent-tint: rgba(45, 127, 249, 0.1);
+  --accent-tint-mid: rgba(45, 127, 249, 0.18);
+  --brand-color: #3e3e3e;
+  --on-accent: #ffffff;
+  --placeholder: rgba(90, 90, 90, 0.7);
+  --danger: #d84343;
+  --danger-bg: rgba(216, 67, 67, 0.09);
+  --danger-bg-hover: rgba(216, 67, 67, 0.16);
+
+  /* 页面背景 */
+  --page-mid: #ffffff;
+  --bg-fallback-left: #eef4ff;
+  --bg-fallback-right: #f8f9fb;
+
+  /* 液态玻璃：填充与折射 */
+  --glass-fill: rgba(255, 255, 255, 0.16);
+  --glass-blur: 12px;
+  --glass-rim: rgba(51, 51, 51, 0.07);
+
+  /* 斜角高光：玻璃厚度的来源（薄片，非厚镜片） */
+  --glass-hl: rgba(255, 255, 255, 0.65);
+  --glass-hl-soft: rgba(255, 255, 255, 0.22);
+  --glass-drop: rgba(0, 0, 0, 0.1);
+
+  /* 内折射环与角部反光 */
+  --glass-refract: rgba(0, 0, 0, 0.16);
+  --glass-sheen: rgba(255, 255, 255, 0.35);
+  --glass-inner-line: rgba(255, 255, 255, 0.14);
+  --glass-brightness: 1;
+
+  /* 玻璃上的文字 */
+  --glass-text: #3e3e3e;
+
+  /* ShapeBlur hover：光标附近点亮的描边 */
+  --blur-stroke: rgba(60, 90, 160, 0.75);
+  --blur-circle-size: 62px;
+  --blur-circle-edge: 46px;
+  --blur-border: 1.5px;
+
+  /* ShinyText：标题高光 */
+  --shiny-base: #3e3e3e;
+  --shiny-highlight: #b8c6e0;
+
+  /* 设置面板 */
+  --panel-bg: rgba(250, 250, 252, 0.62);
+  --panel-rim: rgba(255, 255, 255, 0.7);
+  --panel-shadow: 0 30px 80px rgba(20, 25, 40, 0.24);
+  --field-bg: rgba(20, 20, 20, 0.04);
+  --field-rim: rgba(20, 20, 20, 0.1);
+  --scrim: rgba(10, 12, 20, 0.3);
 }
 
-/* 全局基础：统一盒模型 */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --text: #f0f2f7;
+  --muted: #9aa3b5;
+  --accent: #6ba5ff;
+  --accent-tint: rgba(107, 165, 255, 0.16);
+  --accent-tint-mid: rgba(107, 165, 255, 0.26);
+  --brand-color: #f6f8ff;
+  --on-accent: #07101f;
+  --placeholder: rgba(165, 175, 195, 0.65);
+  --danger: #ff7b7b;
+  --danger-bg: rgba(255, 123, 123, 0.1);
+  --danger-bg-hover: rgba(255, 123, 123, 0.18);
+
+  --page-mid: #000000;
+  --bg-fallback-left: #000000;
+  --bg-fallback-right: #000000;
+
+  /* 暗色：填充更低，全靠边缘光勾勒 */
+  --glass-fill: rgba(255, 255, 255, 0.06);
+  --glass-blur: 12px;
+  --glass-rim: rgba(255, 255, 255, 0.09);
+
+  --glass-hl: rgba(255, 255, 255, 0.32);
+  --glass-hl-soft: rgba(255, 255, 255, 0.12);
+  --glass-drop: rgba(0, 0, 0, 0.4);
+
+  /* 黑底上暗环不可见，改用极淡白环表现玻璃厚度 */
+  --glass-refract: rgba(255, 255, 255, 0.07);
+  /* 角部反光在纯黑上很扎眼，暗色下大幅收敛并拉长过渡 */
+  --glass-sheen: rgba(255, 255, 255, 0.07);
+  --glass-sheen-falloff: 42%;
+  --glass-inner-line: rgba(255, 255, 255, 0.08);
+  --glass-brightness: 1;
+
+  --glass-text: #eef1f8;
+
+  /* ShapeBlur hover：暗色下用亮白描边 */
+  --blur-stroke: rgba(255, 255, 255, 0.9);
+
+  /* ShinyText：暗色下高光更亮 */
+  --shiny-base: #b9bfcc;
+  --shiny-highlight: #ffffff;
+
+  --panel-bg: rgba(14, 16, 24, 0.58);
+  --panel-rim: rgba(255, 255, 255, 0.14);
+  --panel-shadow: 0 30px 80px rgba(0, 0, 0, 0.85);
+  --field-bg: rgba(255, 255, 255, 0.05);
+  --field-rim: rgba(255, 255, 255, 0.12);
+  --scrim: rgba(0, 0, 0, 0.62);
+}
+
+/* 全局基础 */
 * {
   box-sizing: border-box;
 }
 
-/* 页面根元素：铺满视口高度 */
 html,
 body {
   height: 100%;
 }
 
-/* 页面背景：整体底色和氛围光 */
 body {
   margin: 0;
   font-family: "Aptos", "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
   color: var(--text);
-  background: linear-gradient(135deg, var(--bg-left, #eef4ff) 0%, #ffffff 48%, var(--bg-right, #f8f9fb) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--bg-left, var(--bg-fallback-left)) 0%,
+    var(--page-mid) 48%,
+    var(--bg-right, var(--bg-fallback-right)) 100%
+  );
   overflow: hidden;
 }
 
-/* 页面主容器：居中布局 */
+/* 背景特效画布：暗色模式 DarkVeil */
+.bg-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 600ms ease;
+}
+
+.bg-canvas.visible {
+  opacity: 1;
+}
+
+/* ============================================================
+   液态玻璃基类
+   ------------------------------------------------------------
+   四层叠加：
+   1. 极低透明度填充 + 轻微背景模糊（本体）
+   2. 多层 inset 斜角高光（玻璃厚度与倒角）
+   3. ::before 模糊内环（光线穿过玻璃的折射）
+   4. ::after 45° 角部反光（镜面高光）
+   ============================================================ */
+.glass {
+  --r: 24px;
+  position: relative;
+  border-radius: var(--r);
+  border: 1px solid var(--glass-rim);
+  background: var(--glass-fill);
+  backdrop-filter: blur(var(--glass-blur)) saturate(150%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(150%);
+  box-shadow:
+    inset 1px -1px 1px -1px var(--glass-hl),
+    inset -1px 1px 1px -1px var(--glass-hl),
+    inset 0 0 0 1px var(--glass-inner-line),
+    0 4px 14px var(--glass-drop);
+}
+
+/* 内折射环：极淡的一圈，暗示玻璃边缘的厚度 */
+.glass::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 3px;
+  border-radius: calc(var(--r) - 3px);
+  border: 1px solid var(--glass-refract);
+  filter: blur(3px);
+  pointer-events: none;
+}
+
+/* 角部反光：45° 对角镜面高光 */
+.glass::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  border-radius: var(--r);
+  filter: blur(2px);
+  pointer-events: none;
+  background: linear-gradient(
+    45deg,
+    var(--glass-sheen) 0%,
+    transparent var(--glass-sheen-falloff, 18%),
+    transparent calc(100% - var(--glass-sheen-falloff, 18%)),
+    var(--glass-sheen) 100%
+  );
+}
+
+/* 玻璃内容永远在反光层之上 */
+.glass > *:not(.shape-blur-stroke) {
+  position: relative;
+  z-index: 3;
+}
+
+/* ============================================================
+   页面布局
+   ============================================================ */
 .page-shell {
   position: relative;
   min-height: 100%;
@@ -40,7 +226,6 @@ body {
   padding: clamp(140px, 25vh, 300px) 24px 24px;
 }
 
-/* 主内容区：标题和搜索区 */
 .hero {
   width: min(100%, 760px);
   display: grid;
@@ -49,94 +234,113 @@ body {
   animation: rise 700ms ease-out both;
 }
 
-/* 品牌区：标题与图标 */
 .brand {
   margin-bottom: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 16px;
-  text-align: left;
 }
 
-/* 品牌图标：左侧圆角图标块 */
-.brand-mark {
-  width: 62px;
-  height: 62px;
-  border-radius: 18px;
-  display: grid;
-  place-items: center;
-  font-size: 1.8rem;
-  color: rgba(255, 255, 255, 0.98);
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.5), rgba(45, 127, 249, 0.24));
-  border: 1px solid rgba(255, 255, 255, 0.68);
-  box-shadow:
-    0 18px 38px rgba(35, 98, 190, 0.18),
-    0 2px 6px rgba(255, 255, 255, 0.28) inset,
-    inset 0 1px 0 rgba(255, 255, 255, 0.92),
-    inset 0 -10px 18px rgba(45, 127, 249, 0.08);
-  backdrop-filter: blur(24px) saturate(190%);
-  -webkit-backdrop-filter: blur(24px) saturate(190%);
-}
-
-/* 品牌标题：主标题样式 */
 .brand-copy h1 {
   margin: 0;
   font-size: clamp(3rem, 5vw, 3.5rem);
   letter-spacing: -0.04em;
   line-height: 1;
-  color: #333333;
+  color: var(--brand-color);
 }
 
-/* 品牌副标题：说明文字 */
-.brand-copy p {
-  margin: 10px 0 0;
-  color: var(--muted);
-  font-size: 1rem;
+/* ShinyText：垂直光带横向扫过标题
+   移植自 React Bits 的 ShinyText 组件。原组件用 motion 逐帧驱动
+   backgroundPosition（150% -> -50%），此处等价改写为纯 CSS keyframes。
+   spread 用 90deg，光带保持垂直（原组件默认 120deg 是斜向的） */
+.shiny-text {
+  display: inline-block;
+  background-image: linear-gradient(
+    90deg,
+    var(--shiny-base) 0%,
+    var(--shiny-base) 35%,
+    var(--shiny-highlight) 50%,
+    var(--shiny-base) 65%,
+    var(--shiny-base) 100%
+  );
+  background-size: 200% auto;
+  background-position: 150% center;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: shine 5s linear infinite;
 }
 
-/* 搜索卡片：输入区和联想框容器 */
+@keyframes shine {
+  /* 前 60% 扫过，后 40% 停在画外，形成间歇感（对应原组件的 delay） */
+  0% {
+    background-position: 150% center;
+  }
+  60%,
+  100% {
+    background-position: -50% center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shiny-text {
+    animation: none;
+    background-position: 50% center;
+  }
+}
+
+/* ============================================================
+   搜索卡片
+   ============================================================ */
 .search-card {
-  position: relative;
+  --r: 34px;
+  --glass-blur: 5px;
   padding: 18px;
-  border-radius: 34px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.52), rgba(255, 255, 255, 0.18)),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.24), rgba(45, 127, 249, 0.06));
-  border: 1px solid rgba(255, 255, 255, 0.72);
-  box-shadow:
-    0 28px 70px rgba(14, 25, 49, 0.14),
-    0 1px 0 rgba(255, 255, 255, 0.9) inset,
-    inset 0 -18px 32px rgba(255, 255, 255, 0.16);
-  backdrop-filter: blur(34px) saturate(210%);
-  -webkit-backdrop-filter: blur(34px) saturate(210%);
   overflow: visible;
-  isolation: isolate;
 }
 
-/* 搜索卡片高光：玻璃反光层 */
-.search-card::before {
-  content: "";
+/* 搜索框的 ShapeBlur hover：圆角更大，光圈也更大 */
+.search-card {
+  --blur-circle-size: 110px;
+  --blur-circle-edge: 85px;
+}
+
+.search-card .shape-blur-stroke {
   position: absolute;
+  z-index: 2;
   inset: 0;
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.52), transparent 34%, rgba(255, 255, 255, 0.08) 72%),
-    radial-gradient(circle at 18% 14%, rgba(255, 255, 255, 0.38), transparent 26%);
+  border-radius: var(--r);
+  border: var(--blur-border) solid var(--blur-stroke);
   pointer-events: none;
-  border-radius: inherit;
-  z-index: 0;
+  opacity: 0;
+  transition: opacity 260ms ease;
+  -webkit-mask-image: radial-gradient(
+    circle var(--blur-circle-size) at var(--mx, 50%) var(--my, 50%),
+    #000 0,
+    transparent var(--blur-circle-edge)
+  );
+  mask-image: radial-gradient(
+    circle var(--blur-circle-size) at var(--mx, 50%) var(--my, 50%),
+    #000 0,
+    transparent var(--blur-circle-edge)
+  );
 }
 
-/* 搜索行：输入框和按钮排列 */
+.search-card:hover .shape-blur-stroke,
+.search-card:focus-within .shape-blur-stroke {
+  opacity: 1;
+}
+
 .search-row {
   display: flex;
   align-items: center;
   gap: 12px;
   position: relative;
-  z-index: 1;
+  z-index: 3;
 }
 
-/* 搜索按钮组：百度、Bing、Google */
 .search-actions {
   display: flex;
   align-items: center;
@@ -144,42 +348,158 @@ body {
   flex-shrink: 0;
 }
 
-/* 通用按钮：清空与搜索按钮基础 */
+/* ============================================================
+   玻璃控件：清空键 / 引擎按钮 / 设置按钮 / 快捷入口
+   ============================================================ */
 .icon-button,
-.search-button {
-  border: 0;
+.search-button,
+.settings-toggle,
+.quick-links a {
+  --r: 9999px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   font: inherit;
-}
-
-/* 清空按钮：左侧叉号 */
-.icon-button {
-  width: 44px;
-  height: 44px;
-  border-radius: 40%;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0.22)),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(45, 127, 249, 0.08));
-  color: rgba(43, 58, 85, 0.82);
-  border: 1px solid rgba(255, 255, 255, 0.7);
+  color: var(--glass-text);
+  text-decoration: none;
+  border-radius: var(--r);
+  border: 1px solid var(--glass-rim);
+  background: var(--glass-fill);
+  backdrop-filter: blur(var(--glass-blur)) saturate(150%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(150%);
+  filter: brightness(var(--glass-brightness));
   box-shadow:
-    0 12px 28px rgba(17, 27, 44, 0.1),
-    0 1px 0 rgba(255, 255, 255, 0.9) inset,
-    inset 0 -8px 16px rgba(255, 255, 255, 0.24);
-  backdrop-filter: blur(24px) saturate(190%);
-  -webkit-backdrop-filter: blur(24px) saturate(190%);
-  transition: transform 160ms ease, background 160ms ease, color 160ms ease, box-shadow 160ms ease;
+    inset 1px -1px 1px -1px var(--glass-hl),
+    inset -1px 1px 1px -1px var(--glass-hl),
+    inset 0 0 0 1px var(--glass-inner-line),
+    0 3px 10px var(--glass-drop);
+  transition:
+    transform 250ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 250ms ease,
+    background 250ms ease,
+    color 250ms ease;
 }
 
-/* 清空按钮悬停态 */
-.icon-button:hover {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.56), rgba(255, 255, 255, 0.24));
+/* ShapeBlur hover：描边只在光标附近点亮
+   对应原 shader 的 strokeAA(sdRoundRect) * fill(sdCircle)
+   —— 圆角描边用 border 画，鼠标圆形遮罩用 radial-gradient mask 实现 */
+.icon-button::before,
+.search-button::before,
+.settings-toggle::before,
+.quick-links a::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  border-radius: var(--r);
+  border: var(--blur-border) solid var(--blur-stroke);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 260ms ease;
+  -webkit-mask-image: radial-gradient(
+    circle var(--blur-circle-size) at var(--mx, 50%) var(--my, 50%),
+    #000 0,
+    transparent var(--blur-circle-edge)
+  );
+  mask-image: radial-gradient(
+    circle var(--blur-circle-size) at var(--mx, 50%) var(--my, 50%),
+    #000 0,
+    transparent var(--blur-circle-edge)
+  );
+}
+
+.icon-button:hover::before,
+.search-button:hover::before,
+.settings-toggle:hover::before,
+.quick-links a:hover::before,
+.icon-button:focus-visible::before,
+.search-button:focus-visible::before,
+.settings-toggle:focus-visible::before,
+.quick-links a:focus-visible::before {
+  opacity: 1;
+}
+
+.icon-button::after,
+.search-button::after,
+.settings-toggle::after,
+.quick-links a::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  border-radius: var(--r);
+  filter: blur(2px);
+  pointer-events: none;
+  background: linear-gradient(
+    45deg,
+    var(--glass-sheen) 0%,
+    transparent var(--glass-sheen-falloff, 18%),
+    transparent calc(100% - var(--glass-sheen-falloff, 18%)),
+    var(--glass-sheen) 100%
+  );
+}
+
+.icon-button > *,
+.search-button > *,
+.settings-toggle > * {
+  position: relative;
+  z-index: 3;
+}
+
+.icon-button:hover,
+.search-button:hover,
+.settings-toggle:hover,
+.quick-links a:hover {
+  transform: translateY(-1.5px);
   color: var(--text);
-  transform: translateY(-1px) scale(1.01);
-  box-shadow: 0 14px 30px rgba(17, 27, 44, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.92);
+  box-shadow:
+    inset 1px -1px 1px -1px var(--glass-hl),
+    inset -1px 1px 1px -1px var(--glass-hl),
+    inset 0 0 0 1px var(--glass-inner-line),
+    0 8px 18px var(--glass-drop);
 }
 
-/* 搜索输入框：文本输入区域 */
+.icon-button:active,
+.search-button:active,
+.settings-toggle:active,
+.quick-links a:active {
+  transform: translateY(0) scale(0.96);
+}
+
+.icon-button:focus-visible,
+.search-button:focus-visible,
+.settings-toggle:focus-visible,
+.quick-links a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.icon-button {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  font-size: 0.95rem;
+}
+
+/* hidden 属性要压过 display: inline-flex，否则空输入时清空键仍会显示 */
+.icon-button[hidden] {
+  display: none;
+}
+
+.search-button {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+}
+
+.search-button .iconfont {
+  font-size: 24px;
+  line-height: 1;
+}
+
+/* 搜索输入框 */
 #searchInput {
   flex: 1;
   min-width: 0;
@@ -189,118 +509,53 @@ body {
   background: transparent;
   color: var(--text);
   font-size: 1.05rem;
-  padding: 0 4px;
+  padding: 0 4px 0 10px;
 }
 
-/* 搜索输入框占位符 */
 #searchInput::placeholder {
-  color: rgba(97, 112, 138, 0.9);
+  color: var(--placeholder);
 }
 
-/* 浏览器默认清除按钮：隐藏 */
 #searchInput::-webkit-search-cancel-button {
   appearance: none;
 }
 
-/* 搜索按钮通用样式：图标按钮 */
-.search-button {
+/* 自定义引擎图标 */
+.engine-avatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 40%;
-  color: rgba(255, 255, 255, 0.98);
-  border: 1px solid rgba(255, 255, 255, 0.68);
-  box-shadow:
-    0 16px 34px rgba(17, 27, 44, 0.16),
-    0 1px 0 rgba(255, 255, 255, 0.92) inset,
-    inset 0 -10px 18px rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(24px) saturate(190%);
-  -webkit-backdrop-filter: blur(24px) saturate(190%);
-  transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease, border-color 160ms ease;
-  position: relative;
-  overflow: hidden;
-}
-
-/* 搜索按钮高光：按钮内反光层 */
-.search-button::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.56), transparent 34%),
-    radial-gradient(circle at 22% 20%, rgba(255, 255, 255, 0.3), transparent 32%);
-  pointer-events: none;
-}
-
-/* 搜索按钮悬停态 */
-.search-button:hover {
-  transform: translateY(-1px) scale(1.01);
-  box-shadow: 0 18px 34px rgba(17, 27, 44, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.74);
-}
-
-/* 搜索按钮尺寸：百度、Bing、Google 共用 */
-.search-button-baidu,
-.search-button-alt {
-  width: 40px;
-  height: 40px;
-  padding: 0;
-}
-
-/* 百度按钮：主提交按钮 */
-.search-button-baidu {
-  color: rgba(255, 255, 255, 0.98);
-}
-
-/* 搜索图标：三家 logo 字体图标 */
-.search-button-baidu .iconfont,
-.search-button-alt .iconfont {
-  font-size: 25px;
-  line-height: 1;
-}
-
-/* 其他搜索引擎按钮：Bing、Google */
-.search-button-alt {
-  color: rgba(19, 30, 50, 0.92);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.58), rgba(255, 255, 255, 0.2)),
-    linear-gradient(135deg, rgba(45, 127, 249, 0.1), rgba(255, 255, 255, 0.08));
-  border-color: rgba(255, 255, 255, 0.72);
-}
-
-/* 其他搜索按钮悬停态 */
-.search-button-alt:hover {
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--accent-tint-mid);
   color: var(--text);
 }
 
-/* 提示文本：输入说明 */
-.hint {
-  margin: 10px 6px 0;
-  color: var(--muted);
-  font-size: 0.92rem;
+.engine-favicon {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  object-fit: cover;
 }
 
-/* 联想词下拉框：建议列表容器 */
+/* ============================================================
+   联想词下拉
+   ============================================================ */
 .suggestions {
+  --r: 24px;
+  --glass-blur: 10px;
   position: absolute;
   left: 18px;
   right: 18px;
-  top: calc(100% + 10px);
-  border-radius: 24px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0.3)),
-    linear-gradient(135deg, rgba(45, 127, 249, 0.08), rgba(255, 255, 255, 0.08));
-  border: 1px solid rgba(255, 255, 255, 0.72);
-  box-shadow:
-    0 20px 46px rgba(18, 34, 66, 0.12),
-    0 1px 0 rgba(255, 255, 255, 0.9) inset,
-    inset 0 -14px 24px rgba(255, 255, 255, 0.16);
-  backdrop-filter: blur(32px) saturate(200%);
-  -webkit-backdrop-filter: blur(32px) saturate(200%);
+  top: calc(100% + 12px);
   overflow: hidden;
   display: none;
   max-height: 340px;
   overflow-y: auto;
-  z-index: 3;
+  z-index: 5;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -309,12 +564,10 @@ body {
   display: none;
 }
 
-/* 联想词下拉框：显示状态 */
 .suggestions.visible {
   display: block;
 }
 
-/* 联想词条：每条建议按钮 */
 .suggestion-item {
   width: 100%;
   border: 0;
@@ -327,59 +580,39 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
+  position: relative;
+  z-index: 3;
+  transition: background 140ms ease;
 }
 
-/* 联想词条图标：前缀符号 */
 .suggestion-item::before {
   content: "⌕";
   color: var(--accent);
   font-size: 0.9rem;
-  opacity: 0.8;
+  opacity: 0.85;
 }
 
-/* 联想词条悬停/选中态 */
 .suggestion-item:hover,
 .suggestion-item[aria-selected="true"] {
-  background: rgba(45, 127, 249, 0.1);
+  background: var(--accent-tint);
 }
 
-/* 常用入口：底部快捷链接区域 */
+/* ============================================================
+   快捷入口胶囊
+   ============================================================ */
 .quick-links {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 14px;
+  gap: 12px;
   transition: opacity 160ms ease, transform 160ms ease, visibility 160ms ease;
 }
 
-/* 常用入口链接：胶囊按钮 */
 .quick-links a {
-  color: rgba(52, 67, 92, 0.88);
-  text-decoration: none;
-  padding: 10px 14px;
-  border-radius: 999px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0.22)),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(45, 127, 249, 0.06));
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  box-shadow:
-    0 12px 26px rgba(17, 27, 44, 0.08),
-    0 1px 0 rgba(255, 255, 255, 0.92) inset,
-    inset 0 -8px 14px rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(22px) saturate(190%);
-  -webkit-backdrop-filter: blur(22px) saturate(190%);
-  transition: transform 160ms ease, background 160ms ease, color 160ms ease, box-shadow 160ms ease;
+  padding: 9px 18px;
+  font-size: 0.92rem;
 }
 
-/* 常用入口链接悬停态 */
-.quick-links a:hover {
-  color: var(--text);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.54), rgba(255, 255, 255, 0.24));
-  transform: translateY(-1px);
-  box-shadow: 0 16px 28px rgba(17, 27, 44, 0.11), inset 0 1px 0 rgba(255, 255, 255, 0.84);
-}
-
-/* 联想词打开时：隐藏常用入口 */
 body.suggestions-open .quick-links {
   opacity: 0;
   visibility: hidden;
@@ -387,7 +620,6 @@ body.suggestions-open .quick-links {
   pointer-events: none;
 }
 
-/* 仅供辅助技术读取：视觉隐藏文本 */
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -400,7 +632,6 @@ body.suggestions-open .quick-links {
   border: 0;
 }
 
-/* 动画：主内容轻微上浮 */
 @keyframes rise {
   from {
     opacity: 0;
@@ -412,42 +643,440 @@ body.suggestions-open .quick-links {
   }
 }
 
-/* 移动端适配：窄屏布局 */
+/* ============================================================
+   设置入口与面板
+   ============================================================ */
+.settings-corner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 84px;
+  height: 84px;
+  z-index: 20;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 16px;
+}
+
+.settings-toggle {
+  width: 40px;
+  height: 40px;
+  opacity: 0;
+  transform: translateY(-4px) scale(0.9);
+  transition:
+    opacity 250ms ease,
+    transform 250ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 250ms ease,
+    filter 250ms ease,
+    color 250ms ease;
+}
+
+.settings-corner:hover .settings-toggle,
+.settings-toggle:focus-visible,
+.settings-toggle[aria-expanded="true"] {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* 触屏没有 hover，常驻半透明显示 */
+@media (hover: none) {
+  .settings-toggle {
+    opacity: 0.6;
+    transform: none;
+  }
+}
+
+.settings-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--scrim);
+  backdrop-filter: blur(10px) saturate(120%);
+  -webkit-backdrop-filter: blur(10px) saturate(120%);
+  z-index: 29;
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+
+.settings-overlay[hidden] {
+  display: none;
+}
+
+.settings-overlay.visible {
+  opacity: 1;
+}
+
+.settings-panel {
+  --r: 26px;
+  --glass-blur: 40px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.94);
+  width: min(440px, calc(100vw - 32px));
+  max-height: min(640px, calc(100vh - 48px));
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  color: var(--text);
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-rim);
+  backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+  box-shadow:
+    var(--panel-shadow),
+    inset 0 1px 0 var(--glass-rim-top);
+  opacity: 0;
+  transition:
+    transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 220ms ease;
+}
+
+.settings-panel[hidden] {
+  display: none;
+}
+
+/* 角部反光是为小按钮设计的，拉伸到大面板上会变成斜向色带；
+   内折射环同理。大面板只保留边缘描边即可 */
+.settings-panel::after,
+.settings-panel::before {
+  display: none;
+}
+
+.settings-panel.open {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+
+.settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--field-rim);
+  flex-shrink: 0;
+}
+
+.settings-header h2 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.settings-icon-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 140ms ease, color 140ms ease;
+}
+
+.settings-icon-btn:hover {
+  color: var(--text);
+  background: var(--field-bg);
+}
+
+.settings-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 20px 24px;
+  display: grid;
+  gap: 24px;
+  align-content: start;
+  scrollbar-width: thin;
+}
+
+.settings-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.settings-body::-webkit-scrollbar-thumb {
+  background: var(--field-rim);
+  border-radius: 3px;
+}
+
+.settings-footer {
+  padding: 14px 24px 18px;
+  border-top: 1px solid var(--field-rim);
+  display: flex;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
+
+.settings-section {
+  display: grid;
+  gap: 10px;
+}
+
+.settings-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 26px;
+}
+
+.settings-label {
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.settings-input {
+  width: 100%;
+  padding: 10px 13px;
+  border-radius: 12px;
+  border: 1px solid var(--field-rim);
+  background: var(--field-bg);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 140ms ease, background 140ms ease;
+}
+
+.settings-input::placeholder {
+  color: var(--muted);
+  opacity: 0.7;
+}
+
+.settings-input:focus {
+  border-color: var(--accent);
+}
+
+.settings-segmented {
+  display: flex;
+  gap: 4px;
+  background: var(--field-bg);
+  border: 1px solid var(--field-rim);
+  border-radius: 13px;
+  padding: 4px;
+}
+
+.settings-segment {
+  flex: 1;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  padding: 8px;
+  border-radius: 10px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.84rem;
+  transition: background 150ms ease, color 150ms ease;
+}
+
+.settings-segment:hover {
+  color: var(--text);
+}
+
+.settings-segment[aria-checked="true"] {
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 600;
+}
+
+.settings-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.settings-list:empty {
+  display: none;
+}
+
+.settings-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 12px;
+  background: var(--field-bg);
+  border: 1px solid var(--field-rim);
+  font-size: 0.88rem;
+}
+
+.settings-list-item-main {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+}
+
+.settings-list-item-main span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.settings-list-item-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.settings-remove-btn,
+.settings-default-btn {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.75rem;
+  padding: 5px 9px;
+  border-radius: 8px;
+  transition: background 140ms ease, color 140ms ease;
+}
+
+.settings-remove-btn:hover:not(:disabled) {
+  color: var(--danger);
+  background: var(--danger-bg);
+}
+
+.settings-default-btn:hover:not(:disabled) {
+  color: var(--accent);
+  background: var(--accent-tint);
+}
+
+.settings-remove-btn:disabled,
+.settings-default-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.settings-add-btn {
+  border: 0;
+  background: var(--accent-tint);
+  color: var(--accent);
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 140ms ease;
+}
+
+.settings-add-btn:hover:not(:disabled) {
+  background: var(--accent-tint-mid);
+}
+
+.settings-add-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.settings-inline-form {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 13px;
+  border: 1px dashed var(--field-rim);
+  background: var(--field-bg);
+}
+
+.settings-inline-form[hidden] {
+  display: none;
+}
+
+.settings-inline-form-actions {
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.settings-primary-btn {
+  border: 0;
+  background: var(--accent);
+  color: var(--on-accent);
+  padding: 8px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 600;
+  transition: filter 140ms ease;
+}
+
+.settings-primary-btn:hover {
+  filter: brightness(1.08);
+}
+
+.settings-ghost-btn {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  padding: 8px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.84rem;
+  transition: color 140ms ease, background 140ms ease;
+}
+
+.settings-ghost-btn:hover {
+  color: var(--text);
+  background: var(--field-bg);
+}
+
+.settings-danger-btn {
+  border: 1px solid var(--danger-bg-hover);
+  background: var(--danger-bg);
+  color: var(--danger);
+  padding: 7px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.78rem;
+  transition: background 140ms ease;
+}
+
+.settings-danger-btn:hover {
+  background: var(--danger-bg-hover);
+}
+
+/* ============================================================
+   移动端
+   ============================================================ */
 @media (max-width: 640px) {
-  /* 移动端页面：允许滚动 */
   body {
     overflow: auto;
   }
 
-  /* 移动端容器：调整内边距 */
   .page-shell {
     padding: clamp(72px, 18vh, 140px) 18px 18px;
   }
 
-  /* 移动端品牌区：上下排列 */
   .brand {
     flex-direction: column;
     text-align: center;
   }
 
-  /* 移动端搜索行：允许换行 */
   .search-row {
     flex-wrap: wrap;
   }
 
-  /* 移动端按钮组：占满一行 */
   .search-actions {
     width: 100%;
     justify-content: flex-end;
     flex-wrap: wrap;
   }
 
-  /* 移动端清空按钮：保持顺序 */
   .icon-button {
     order: 2;
   }
 
-  /* 移动端输入框：独占一行 */
   #searchInput {
     order: 0;
     width: 100%;
@@ -455,14 +1084,37 @@ body.suggestions-open .quick-links {
     padding: 0 4px;
   }
 
-  /* 移动端搜索按钮：保持顺序 */
   .search-button {
     order: 1;
   }
 
-  /* 移动端联想框：左右留白 */
   .suggestions {
     left: 14px;
     right: 14px;
+  }
+
+  .settings-panel {
+    width: calc(100vw - 20px);
+    max-height: calc(100vh - 32px);
+  }
+
+  .settings-header,
+  .settings-body,
+  .settings-footer {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+}
+
+/* 减弱动效偏好 */
+@media (prefers-reduced-motion: reduce) {
+  .hero {
+    animation: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
   }
 }
