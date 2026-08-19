@@ -1,7 +1,11 @@
 # White Search / 白搜 （搜索美化、聚合搜索）
 
+[![Edge Add-ons](https://img.shields.io/badge/Edge%20Add--ons-WhiteTab%20新标签页-0078D7?logo=microsoftedge&logoColor=white)](https://microsoftedge.microsoft.com/addons/detail/aohcjoigeeljaoaljgphldmmgondhkok)
+
 起因是从 2026 年某天百度首页增加了一个无法手动关闭的信息流，
 固诞生 White-Search，替换百度或必应用于浏览器首页，提供多引擎的一键搜索直达，并集成联想词建议以及常见 AI Chat 入口，整体采用液态玻璃风格。
+
+浏览器扩展已上架 Edge 加载项商店，名称为 **WhiteTab 新标签页**：<https://microsoftedge.microsoft.com/addons/detail/aohcjoigeeljaoaljgphldmmgondhkok>
 
 ![亮色模式](./assets/index.png)
 
@@ -49,9 +53,15 @@ https://duckduckgo.com/?q=%s
 
 ## 安装
 
-### 方式一：浏览器扩展（推荐）
+### 方式一：Edge 加载项商店（推荐）
 
-安装后自动替换新标签页。
+<https://microsoftedge.microsoft.com/addons/detail/aohcjoigeeljaoaljgphldmmgondhkok>
+
+点击「获取」即可，安装后自动接管新标签页，后续版本会自动更新。
+
+### 方式二：手动加载扩展
+
+适用于 Chrome，或想抢先使用尚未上架的版本。
 
 1. 从 [Releases](../../releases) 下载 `white-search-<版本>.zip` 并解压
 2. 打开 `chrome://extensions`（Edge 为 `edge://extensions`）
@@ -60,7 +70,7 @@ https://duckduckgo.com/?q=%s
 
 扩展形态下联想词通过 `fetch` 直接请求，需要 `host_permissions`（已在 `manifest.json` 中声明，仅限三个搜索引擎的联想接口域名）。
 
-### 方式二：静态页面
+### 方式三：静态页面
 
 直接打开 `index.html` 即可，或将其设为浏览器主页。此形态下联想词走 JSONP，无需任何权限。
 
