@@ -8,17 +8,101 @@
     <link rel="icon" type="image/png" href="./resources/favicon.png" />
     <link rel="stylesheet" href="./resources/iconfont.css" />
     <link rel="stylesheet" href="./styles.css" />
+    <script src="./theme-bootstrap.js"></script>
   </head>
   <body>
+    <canvas id="bgCanvas" class="bg-canvas" aria-hidden="true"></canvas>
+
+    <div class="settings-corner">
+      <button
+        id="settingsToggle"
+        class="settings-toggle"
+        type="button"
+        aria-label="打开设置"
+        aria-haspopup="dialog"
+        aria-controls="settingsPanel"
+        aria-expanded="false"
+      >
+        <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.14 12.94a7.6 7.6 0 0 0 0-1.88l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.6-.22l-2.39.96a7.3 7.3 0 0 0-1.63-.94l-.36-2.54a.5.5 0 0 0-.5-.42h-3.84a.5.5 0 0 0-.5.42l-.36 2.54c-.58.24-1.13.55-1.63.94l-2.39-.96a.5.5 0 0 0-.6.22L2.65 8.84a.5.5 0 0 0 .12.64l2.03 1.58a7.6 7.6 0 0 0 0 1.88l-2.03 1.58a.5.5 0 0 0-.12.64l1.92 3.32c.13.22.39.31.6.22l2.39-.96c.5.39 1.05.7 1.63.94l.36 2.54c.04.24.25.42.5.42h3.84c.25 0 .46-.18.5-.42l.36-2.54c.58-.24 1.13-.55 1.63-.94l2.39.96c.22.09.47 0 .6-.22l1.92-3.32a.5.5 0 0 0-.12-.64z"></path>
+        </svg>
+      </button>
+    </div>
+
+    <div id="settingsOverlay" class="settings-overlay" hidden></div>
+    <div id="settingsPanel" class="settings-panel glass" role="dialog" aria-modal="true" aria-labelledby="settingsPanelTitle" hidden>
+      <header class="settings-header">
+        <h2 id="settingsPanelTitle">设置</h2>
+        <button id="settingsClose" type="button" class="settings-icon-btn" aria-label="关闭设置">
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M6 6l12 12M18 6L6 18"></path>
+          </svg>
+        </button>
+      </header>
+
+      <div class="settings-body">
+        <section class="settings-section">
+          <label class="settings-label" for="settingPageTitle">页面标题</label>
+          <input id="settingPageTitle" class="settings-input" type="text" maxlength="24" placeholder="White Search" />
+        </section>
+
+        <section class="settings-section">
+          <span class="settings-label" id="themeOptionsLabel">主题</span>
+          <div class="settings-segmented" id="themeOptions" role="radiogroup" aria-labelledby="themeOptionsLabel">
+            <button type="button" class="settings-segment" data-theme-choice="system" role="radio">跟随系统</button>
+            <button type="button" class="settings-segment" data-theme-choice="light" role="radio">亮色</button>
+            <button type="button" class="settings-segment" data-theme-choice="dark" role="radio">暗色</button>
+          </div>
+        </section>
+
+        <section class="settings-section">
+          <div class="settings-section-header">
+            <span class="settings-label">搜索引擎</span>
+            <button type="button" id="addEngineBtn" class="settings-add-btn">+ 添加</button>
+          </div>
+          <ul id="engineList" class="settings-list"></ul>
+          <form id="engineForm" class="settings-inline-form" hidden>
+            <input id="engineNameInput" class="settings-input" type="text" placeholder="名称，如 DuckDuckGo" maxlength="16" required />
+            <input id="engineUrlInput" class="settings-input" type="text" placeholder="搜索地址，用 %s 代表关键词" required />
+            <div class="settings-inline-form-actions">
+              <button type="button" id="engineFormCancel" class="settings-ghost-btn">取消</button>
+              <button type="submit" class="settings-primary-btn">添加</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="settings-section">
+          <div class="settings-section-header">
+            <span class="settings-label">快捷入口</span>
+            <button type="button" id="addQuickLinkBtn" class="settings-add-btn">+ 添加</button>
+          </div>
+          <ul id="quickLinkSettingsList" class="settings-list"></ul>
+          <form id="quickLinkForm" class="settings-inline-form" hidden>
+            <input id="quickLinkNameInput" class="settings-input" type="text" placeholder="网站名称" maxlength="16" required />
+            <input id="quickLinkUrlInput" class="settings-input" type="text" placeholder="网站域名，如 example.com" required />
+            <div class="settings-inline-form-actions">
+              <button type="button" id="quickLinkFormCancel" class="settings-ghost-btn">取消</button>
+              <button type="submit" class="settings-primary-btn">添加</button>
+            </div>
+          </form>
+        </section>
+      </div>
+
+      <footer class="settings-footer">
+        <button type="button" id="restoreDefaultsBtn" class="settings-danger-btn">还原默认设置</button>
+      </footer>
+    </div>
+
     <main class="page-shell">
       <section class="hero" aria-label="搜索首页">
         <div class="brand">
           <div class="brand-copy">
-            <h1>White Search</h1>
+            <h1 id="brandTitle" class="shiny-text">White Search</h1>
           </div>
         </div>
 
-        <form id="searchForm" class="search-card" autocomplete="off" spellcheck="false">
+        <form id="searchForm" class="search-card glass" autocomplete="off" spellcheck="false">
           <div class="search-row">
             <button class="icon-button" type="button" aria-label="清空输入" id="clearButton">✕</button>
             <label class="visually-hidden" for="searchInput">搜索</label>
@@ -33,34 +117,21 @@
               aria-expanded="false"
               aria-describedby="searchHint"
             />
-            <div class="search-actions" aria-label="搜索引擎按钮">
-              <button class="search-button search-button-alt search-button-baidu" type="submit" aria-label="百度搜索">
-                <span class="iconfont icon-baidu_" aria-hidden="true"></span>
-                <span class="visually-hidden">百度搜索</span>
-              </button>
-              <button class="search-button search-button-alt search-button-bing" type="button" id="bingButton" aria-label="Bing 搜索">
-                <span class="iconfont icon-bing" aria-hidden="true"></span>
-                <span class="visually-hidden">Bing 搜索</span>
-              </button>
-              <button class="search-button search-button-alt search-button-google" type="button" id="googleButton" aria-label="Google 搜索">
-                <span class="iconfont icon-logo-google" aria-hidden="true"></span>
-                <span class="visually-hidden">Google 搜索</span>
-              </button>
-            </div>
+            <div class="search-actions" id="engineButtons" aria-label="搜索引擎按钮"></div>
           </div>
 
-          <div id="suggestions" class="suggestions" role="listbox" aria-label="搜索建议"></div>
+          <div id="suggestions" class="suggestions glass" role="listbox" aria-label="搜索建议"></div>
+          <span class="shape-blur-stroke" aria-hidden="true"></span>
         </form>
 
-        <div class="quick-links" aria-label="常用入口">
-          <a href="https://chatgpt.com" target="_blank" rel="noreferrer">ChatGPT</a>
-          <a href="https://gemini.google.com" target="_blank" rel="noreferrer">Gemini</a>
-          <a href="https://chat.deepseek.com" target="_blank" rel="noreferrer">DeepSeek</a>
-          <a href="https://www.doubao.com/chat" target="_blank" rel="noreferrer">豆包</a>
-        </div>
+        <div class="quick-links" id="quickLinks" aria-label="常用入口"></div>
       </section>
     </main>
 
+    <script src="./settings.js"></script>
+    <script src="./effects.js"></script>
+    <script src="./shape-blur.js"></script>
     <script src="./script.js"></script>
+    <script src="./settings-ui.js"></script>
   </body>
 </html>
