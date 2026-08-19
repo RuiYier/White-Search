@@ -209,7 +209,9 @@ body {
 }
 
 /* 玻璃内容永远在反光层之上 */
-.glass > *:not(.shape-blur-stroke) {
+/* 内容层压在反光层之上。绝对定位的子元素（描边层、联想框）要排除，
+   否则会被强制成 relative —— 联想框将参与父级高度计算，把卡片撑高 */
+.glass > *:not(.shape-blur-stroke):not(.suggestions) {
   position: relative;
   z-index: 3;
 }
