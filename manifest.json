@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "White Search - 白搜",
+  "version": "2.0.0",
+  "description": "替换浏览器新标签页，多引擎聚合搜索、联想词建议与常见 AI Chat 入口，支持亮色/暗色主题与自定义配置。",
+  "icons": {
+    "128": "resources/favicon.png"
+  },
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
+  "permissions": [],
+  "host_permissions": [
+    "https://suggestion.baidu.com/*",
+    "https://api.bing.com/*",
+    "https://suggestqueries.google.com/*"
+  ]
+}
