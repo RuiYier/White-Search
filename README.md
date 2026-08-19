@@ -97,6 +97,7 @@ node scripts/build-extension.js
 - 项目为纯静态页面，无需安装依赖或启动服务，直接打开 `index.html` 即可
 - 设置保存在浏览器 `localStorage`，仅存于本地，清除浏览器数据会一并清除
 - 自定义引擎与快捷入口的图标通过第三方 favicon 服务获取，会向该服务发送对应域名
+- 不收集任何用户数据，详见[隐私政策](./PRIVACY.md)
 
 ## 致谢
 
