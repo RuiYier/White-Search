@@ -1,28 +1,17 @@
 #!/usr/bin/env node
 /* 打包浏览器扩展
-   用法: node build-extension.js
+   用法: node scripts/build-extension.js
    产物: dist/white-search-<version>.zip（可直接上传应用商店或解压后加载） */
 const fs = require('fs');
 const path = require('path');
 const { execFileSync } = require('child_process');
 
-const ROOT = __dirname;
+const ROOT = path.join(__dirname, '..');
 const DIST = path.join(ROOT, 'dist');
 const STAGE = path.join(DIST, 'extension');
 
 /* 需要打包的文件与目录，其余（README、assets 截图、构建脚本等）不进扩展包 */
-const INCLUDE = [
-  'manifest.json',
-  'index.html',
-  'styles.css',
-  'theme-bootstrap.js',
-  'settings.js',
-  'effects.js',
-  'shape-blur.js',
-  'script.js',
-  'settings-ui.js',
-  'resources',
-];
+const INCLUDE = ['manifest.json', 'index.html', 'src', 'resources'];
 
 function rmrf(target) {
   fs.rmSync(target, { recursive: true, force: true });
@@ -53,11 +42,6 @@ for (const item of INCLUDE) {
     process.exit(1);
   }
   copy(src, path.join(STAGE, item));
-}
-
-/* resources 里的 iconfont 演示页和构建产物无需随扩展分发 */
-for (const junk of ['demo.css', 'demo_index.html', 'iconfont.js', 'iconfont.json']) {
-  rmrf(path.join(STAGE, 'resources', junk));
 }
 
 const zipPath = path.join(DIST, zipName);
