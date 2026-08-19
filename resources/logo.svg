@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- 圆形底盘 -->
+  <circle cx="100" cy="100" r="100" fill="#F2ECFF"/>
+  <!-- 手柄（在镜身下层，末端圆角） -->
+  <line x1="130" y1="130" x2="156" y2="156" stroke="#DBBBFF" stroke-width="22" stroke-linecap="round"/>
+  <!-- 镜身 -->
+  <circle cx="98" cy="98" r="49" fill="#BC86F9"/>
+  <!-- 高光弧：左上起笔向右的一段圆弧 -->
+  <path d="M 98 71 A 27 27 0 0 1 125 98" fill="none" stroke="#FFFFFF" stroke-width="11" stroke-linecap="round"/>
+</svg>
