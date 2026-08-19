@@ -396,7 +396,7 @@ function fetchSuggestions(query) {
   teardownJsonp();
 
   const sourceKey = resolveSuggestSource(settings);
-  const source = SUGGEST_SOURCES[sourceKey] || SUGGEST_SOURCES.baidu;
+  const source = SUGGEST_SOURCES[sourceKey] || SUGGEST_SOURCES.bing;
   const token = (suggestToken += 1);
 
   if (IS_EXTENSION) {

@@ -5,7 +5,7 @@ const DEFAULT_SETTINGS = {
   version: SETTINGS_VERSION,
   pageTitle: 'White Search',
   theme: 'system',
-  defaultEngineId: 'baidu',
+  defaultEngineId: 'bing',
   engines: [
     { id: 'baidu', name: '百度', urlTemplate: 'https://www.baidu.com/s?wd=%s', iconType: 'iconfont', iconValue: 'icon-baidu_' },
     { id: 'bing', name: 'Bing', urlTemplate: 'https://www.bing.com/search?q=%s', iconType: 'iconfont', iconValue: 'icon-bing' },
@@ -198,8 +198,10 @@ function resetSettings() {
   return cloneDefaults();
 }
 
+/* 联想词跟随默认引擎。默认引擎若是用户自定义的（没有对应联想接口），
+   回退到 Bing —— 与出厂默认引擎保持一致 */
 function resolveSuggestSource(settings) {
   const engine = settings.engines.find((e) => e.id === settings.defaultEngineId);
   const knownSources = ['baidu', 'bing', 'google'];
-  return (engine && knownSources.includes(engine.id) && engine.id) || 'baidu';
+  return (engine && knownSources.includes(engine.id) && engine.id) || 'bing';
 }
