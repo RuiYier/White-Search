@@ -67,10 +67,30 @@ https://duckduckgo.com/?q=%s
 ### 自行打包扩展
 
 ```bash
-node build-extension.js
+node scripts/build-extension.js
 ```
 
 产物为 `dist/white-search-<版本>.zip`，同时保留未压缩的 `dist/extension/` 供本地加载调试。
+
+## 目录结构
+
+```
+├── index.html                  入口页面
+├── manifest.json               扩展清单（MV3）
+├── src/
+│   ├── styles.css              全部样式与主题令牌
+│   ├── theme-bootstrap.js      首屏前确定主题，避免闪白
+│   ├── settings.js             配置读写、校验与迁移
+│   ├── effects.js              暗色背景着色器
+│   ├── shape-blur.js           光标跟随描边
+│   ├── script.js               搜索、联想词与页面渲染
+│   └── settings-ui.js          设置面板交互
+├── resources/                  图标字体与 favicon
+├── scripts/build-extension.js  扩展打包脚本
+└── assets/                     README 截图
+```
+
+脚本以传统 `<script>` 顺序加载，非 ES Module —— `file://` 下模块化会被 CORS 拦截，这样才能保证双击 `index.html` 直接可用。加载顺序有依赖关系，调整时需留意。
 
 ## 说明
 
