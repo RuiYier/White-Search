@@ -260,12 +260,73 @@ function teardownJsonp() {
   }
 }
 
-/** 解析 JSONP 响应体：剥掉外层的 callback(...) 包装 */
+/* 解析 JSONP 响应体：剥掉外层的 callback(...) 包装。
+   三处不规范需要处理：
+   1. Bing 会包一层 if(typeof callback == 'function') callback({...});，
+      既不能取第一个左括号，也不能取最后一个右括号（末尾还有 ; 等内容），
+      需要从回调的左括号起做括号配对；
+   2. 百度返回的不是合法 JSON —— 键名没有引号（{q:"x",s:[...]}）；
+   3. 部分接口用单引号包字符串。 */
 function parseJsonpBody(text) {
-  const start = text.indexOf('(');
-  const end = text.lastIndexOf(')');
-  if (start === -1 || end === -1 || end <= start) return null;
-  return JSON.parse(text.slice(start + 1, end));
+  const call = /(?:^|[^\w$.])([\w$]+)\s*\(/g;
+  let start = -1;
+  let match;
+  while ((match = call.exec(text)) !== null) {
+    // 跳过 if/typeof 之类的控制结构，取最后一个函数调用作为回调
+    if (match[1] !== 'if' && match[1] !== 'typeof') {
+      start = call.lastIndex - 1;
+    }
+  }
+  if (start === -1) return null;
+
+  // 括号配对，找到回调实参真正的结束位置（跳过字符串内的括号）
+  let depth = 0;
+  let end = -1;
+  let inStr = null;
+  for (let i = start; i < text.length; i += 1) {
+    const ch = text[i];
+    if (inStr) {
+      if (ch === '\\') i += 1;
+      else if (ch === inStr) inStr = null;
+      continue;
+    }
+    if (ch === '"' || ch === "'") inStr = ch;
+    else if (ch === '(') depth += 1;
+    else if (ch === ')') {
+      depth -= 1;
+      if (depth === 0) {
+        end = i;
+        break;
+      }
+    }
+  }
+  if (end === -1) return null;
+
+  const body = text
+    .slice(start + 1, end)
+    .replace(/\/\*[\s\S]*?\*\//g, '') // Bing 会在实参尾部插入 /* pageview_candidate */
+    .trim();
+  try {
+    return JSON.parse(body);
+  } catch (err) {
+    const normalized = body
+      .replace(/([{,]\s*)([A-Za-z_$][\w$]*)\s*:/g, '$1"$2":') // 给裸键名补引号
+      .replace(/'/g, '"'); // 单引号字符串换成双引号
+    return JSON.parse(normalized);
+  }
+}
+
+/* 百度联想接口返回 GBK 编码，直接 res.text() 会得到乱码，
+   需按响应头里的 charset 解码。Bing/Google 是 UTF-8，走默认分支即可。 */
+function decodeResponse(res, buffer) {
+  const contentType = res.headers.get('content-type') || '';
+  const match = /charset=([\w-]+)/i.exec(contentType);
+  const charset = (match ? match[1] : 'utf-8').toLowerCase();
+  try {
+    return new TextDecoder(charset).decode(buffer);
+  } catch (err) {
+    return new TextDecoder('utf-8').decode(buffer);
+  }
 }
 
 function fetchSuggestionsViaFetch(query, source, token) {
@@ -274,7 +335,7 @@ function fetchSuggestionsViaFetch(query, source, token) {
   const timer = window.setTimeout(() => controller.abort(), SUGGEST_TIMEOUT_MS);
 
   fetch(url, { signal: controller.signal, credentials: 'omit' })
-    .then((res) => res.text())
+    .then((res) => res.arrayBuffer().then((buf) => decodeResponse(res, buf)))
     .then((text) => {
       window.clearTimeout(timer);
       if (token !== suggestToken) return;
