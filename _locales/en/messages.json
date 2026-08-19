@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "WhiteTab New Tab",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "A liquid-glass new tab page with fresh colors on every open. Customizable search engines and shortcuts, with suggestions and light/dark themes.",
+    "description": "Extension description"
+  }
+}

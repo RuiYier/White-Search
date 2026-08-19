@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "WhiteTab 新标签页",
+    "description": "扩展名称"
+  },
+  "extDescription": {
+    "message": "液态玻璃风格的新标签页，每次打开焕然一新的色彩。支持自定义搜索引擎与快捷入口，含联想词建议与深浅主题。",
+    "description": "扩展描述"
+  }
+}
