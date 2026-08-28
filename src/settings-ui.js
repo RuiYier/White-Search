@@ -282,7 +282,9 @@
 
   function render() {
     const settings = getSettings();
-    pageTitleInput.value = settings.pageTitle;
+    if (document.activeElement !== pageTitleInput) {
+      pageTitleInput.value = settings.pageTitle;
+    }
 
     themeOptions.querySelectorAll('button[data-theme-choice]').forEach((btn) => {
       const active = btn.dataset.themeChoice === settings.theme;
